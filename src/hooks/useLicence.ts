@@ -1,6 +1,10 @@
-﻿import { useState, useEffect } from 'react';
+﻿// ============================================
+// HOOK useLicence
+// ============================================
+
+import { useState, useEffect } from 'react';
 import LicenceService from '../services/LicenceService';
-import type { LicenceStatus } from '../types';
+import type { LicenceStatus } from '../types/licence';
 
 export function useLicence() {
   const [status, setStatus] = useState<LicenceStatus | null>(null);
@@ -19,19 +23,28 @@ export function useLicence() {
   };
 
   const activateLicence = async (code: string): Promise<boolean> => {
-    const success = await LicenceService.activateLicence(code);
-    if (success) {
-      await checkLicence();
+    try {
+      const success = await LicenceService.activateLicence(code);
+      if (success) {
+        await checkLicence();
+      }
+      return success;
+    } catch (error) {
+      console.error('Erreur activation licence:', error);
+      return false;
     }
-    return success;
   };
 
   const startTrial = async () => {
-    await LicenceService.startTrial();
-    await checkLicence();
+    try {
+      await LicenceService.startTrial();
+      await checkLicence();
+    } catch (error) {
+      console.error('Erreur démarrage essai:', error);
+    }
   };
 
-  const getDeviceId = async () => {
+  const getDeviceId = async (): Promise<string> => {
     return await LicenceService.getDeviceId();
   };
 
@@ -49,5 +62,6 @@ export function useLicence() {
     isValid: status?.isValid || false,
     remainingDays: status?.remainingDays || 0,
     isExpired: status?.isExpired || false,
+    isTrial: status?.isTrial || false,
   };
 }

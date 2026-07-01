@@ -45,7 +45,6 @@ export class AuthService {
       const isValid = await verifyPassword(password, user.password_hash);
       if (!isValid) return null;
 
-      // Mettre à jour last_login
       await DatabaseService.execute(
         'UPDATE users SET last_login = ? WHERE id = ?',
         [new Date().toISOString(), user.id]
@@ -81,19 +80,20 @@ export class AuthService {
       const id = await Crypto.randomUUID();
       const passwordHash = await hashPassword(data.password);
 
-      await DatabaseService.execute(
-        INSERT INTO users (
-          id, username, email, password_hash, role, is_biometric
-        ) VALUES (?, ?, ?, ?, ?, ?),
-        [
-          id,
-          data.username,
-          data.email,
-          passwordHash,
-          data.role || 'cashier',
-          0,
-        ]
-      );
+      // ✅ REQUÊTE SQL CORRECTE
+          await DatabaseService.execute(
+      `INSERT INTO users (
+        id, username, email, password_hash, role, is_biometric
+      ) VALUES (?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        data.username,
+        data.email,
+        passwordHash,
+        data.role || 'cashier',
+        0,
+      ]
+    );
 
       return await this.login(data.username, data.password);
     } catch (error) {
@@ -164,10 +164,7 @@ export class AuthService {
     return stored !== null;
   }
 
-  async changePassword(
-    currentPassword: string,
-    newPassword: string
-  ): Promise<boolean> {
+  async changePassword(currentPassword: string, newPassword: string): Promise<boolean> {
     try {
       const user = await this.getCurrentUser();
       if (!user) return false;
@@ -217,7 +214,7 @@ export class AuthService {
   async deleteUser(id: string): Promise<boolean> {
     try {
       const current = await this.getCurrentUser();
-      if (current?.id === id) return false; // Ne pas supprimer soi-même
+      if (current?.id === id) return false;
 
       await DatabaseService.execute('DELETE FROM users WHERE id = ?', [id]);
       return true;

@@ -54,9 +54,18 @@ export default function LicenceBlockScreen({ navigation }: LicenceBlockScreenPro
   const contactWhatsApp = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 
-    const message = '📱 DEMANDE D ACTIVATION STOCKIA\n\n📌 Informations :\n• Appareil : ' + Platform.OS + ' - ' + Platform.Version + '\n• ID Appareil : ' + deviceId + '\n• Demande : Abonnement ' + LICENCE.PRICE.toLocaleString() + ' ' + LICENCE.CURRENCY + '/mois\n\n📝 Message :\nBonjour, je souhaite activer mon abonnement Stockia.\nVoici mon identifiant d appareil. Merci !';
+    const message = 📱 DEMANDE D'ACTIVATION STOCKIA
 
-    const url = 'https://wa.me/' + LICENCE.WHATSAPP + '?text=' + encodeURIComponent(message);
+📌 Informations :
+• Appareil :  - 
+• ID Appareil : 
+• Demande : Abonnement  /mois
+
+📝 Message :
+Bonjour, je souhaite activer mon abonnement Stockia.
+Voici mon identifiant d'appareil. Merci !;
+
+    const url = https://wa.me/?text=;
 
     Linking.openURL(url).catch(() => {
       Alert.alert(
@@ -122,13 +131,13 @@ export default function LicenceBlockScreen({ navigation }: LicenceBlockScreenPro
         </View>
 
         <Text style={styles.blockTitle}>
-          {isExpired ? '🚫 Accès bloqué' : '⏳ ' + remainingDays + ' jours restants'}
+          {isExpired ? '🚫 Accès bloqué' : ⏳  jours restants}
         </Text>
 
         <Text style={styles.blockMessage}>
           {isExpired
             ? 'Votre abonnement a expiré'
-            : 'Votre période d\'essai expire dans ' + remainingDays + ' jours'}
+            : Votre période d'essai expire dans  jours}
         </Text>
 
         <View style={styles.priceContainer}>
@@ -162,12 +171,12 @@ export default function LicenceBlockScreen({ navigation }: LicenceBlockScreenPro
           onPress={() => {
             Alert.alert(
               '📖 Comment activer ?',
-              '1. Contactez-nous sur WhatsApp\n' +
-              '2. Effectuez le paiement de ' + LICENCE.PRICE.toLocaleString() + ' ' + LICENCE.CURRENCY + '\n' +
-              '3. Recevez votre code d activation\n' +
-              '4. Entrez le code pour débloquer\n\n' +
-              '📞 ' + LICENCE.WHATSAPP + '\n' +
-              '📧 ' + APP.SUPPORT_EMAIL,
+              1. Contactez-nous sur WhatsApp\n +
+              2. Effectuez le paiement de  \n +
+              3. Recevez votre code d'activation\n +
+              4. Entrez le code pour débloquer\n\n +
+              📞 \n +
+              📧 ,
               [{ text: 'OK' }]
             );
           }}
@@ -181,7 +190,7 @@ export default function LicenceBlockScreen({ navigation }: LicenceBlockScreenPro
             if (!isExpired) {
               Alert.alert(
                 '⚠️ Période d\'essai',
-                'Vous avez déjà ' + remainingDays + ' jours restants. Voulez-vous vraiment recommencer ?',
+                Vous avez déjà  jours restants. Voulez-vous vraiment recommencer ?,
                 [
                   { text: 'Annuler', style: 'cancel' },
                   {

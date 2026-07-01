@@ -1,4 +1,8 @@
-﻿import React from 'react';
+﻿// ============================================
+// CONFIRM DIALOG COMPONENT
+// ============================================
+
+import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import Button from './Button';
 
