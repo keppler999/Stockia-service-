@@ -13,25 +13,25 @@ class Logger {
 
   debug(message: string, ...args: any[]): void {
     if (this.shouldLog('debug')) {
-      console.log(🔍 [DEBUG] , ...args);
+      console.log('[DEBUG]', message, ...args);
     }
   }
 
   info(message: string, ...args: any[]): void {
     if (this.shouldLog('info')) {
-      console.log(ℹ️ [INFO] , ...args);
+      console.log('[INFO]', message, ...args);
     }
   }
 
   warn(message: string, ...args: any[]): void {
     if (this.shouldLog('warn')) {
-      console.warn(⚠️ [WARN] , ...args);
+      console.warn('[WARN]', message, ...args);
     }
   }
 
   error(message: string, ...args: any[]): void {
     if (this.shouldLog('error')) {
-      console.error(❌ [ERROR] , ...args);
+      console.error('[ERROR]', message, ...args);
     }
   }
 
@@ -42,4 +42,3 @@ class Logger {
 }
 
 export default new Logger();
-
