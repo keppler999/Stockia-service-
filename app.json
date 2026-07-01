@@ -1,25 +1,47 @@
 {
   "expo": {
-    "name": "Deep3",
-    "slug": "Deep3",
-    "version": "1.0.0",
+    "name": "Stockia",
+    "slug": "stockia",
+    "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A1628"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "cd.spiraleagence.stockia"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A1628"
       },
-      "predictiveBackGestureEnabled": false
+      "package": "cd.spiraleagence.stockia",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.USE_BIOMETRIC",
+        "android.permission.USE_FINGERPRINT",
+        "android.permission.VIBRATE"
+      ]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "plugins": [
+      "expo-local-authentication",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Stockia utilise la caméra pour scanner les codes-barres."
+        }
+      ],
+      "expo-secure-store",
+      "expo-sharing",
+      "expo-splash-screen"
+    ]
   }
 }
