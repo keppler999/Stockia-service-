@@ -16,6 +16,7 @@ export class SalesService {
     return SalesService.instance;
   }
 
+  // Crée une nouvelle vente
   async createSale(items: any[], paymentMethod: string, clientId?: string, userId?: string): Promise<any> {
     const saleId = await Crypto.randomUUID();
     const now = new Date().toISOString();
@@ -57,10 +58,12 @@ export class SalesService {
     return { id: saleId, total, subtotal, tax, items, createdAt: now };
   }
 
+  // Récupère toutes les ventes
   async getSales(): Promise<any[]> {
     return await DatabaseService.query('SELECT * FROM sales ORDER BY sale_date DESC');
   }
 
+  // Récupère les ventes d'aujourd'hui
   async getTodaySales(): Promise<any[]> {
     const today = new Date().toISOString().split('T')[0];
     return await DatabaseService.query(
@@ -69,6 +72,7 @@ export class SalesService {
     );
   }
 
+  // Récupère le chiffre d'affaires sur une période
   async getRevenue(dateFrom: string, dateTo: string): Promise<number> {
     const result = await DatabaseService.queryOne(
       'SELECT SUM(total) as revenue FROM sales WHERE sale_date BETWEEN ? AND ?',
@@ -77,6 +81,7 @@ export class SalesService {
     return result?.revenue || 0;
   }
 
+  // Récupère le nombre de ventes sur une période
   async getSalesCount(dateFrom: string, dateTo: string): Promise<number> {
     const result = await DatabaseService.queryOne(
       'SELECT COUNT(*) as count FROM sales WHERE sale_date BETWEEN ? AND ?',
@@ -85,6 +90,7 @@ export class SalesService {
     return result?.count || 0;
   }
 
+  // Récupère les produits les plus vendus
   async getTopProducts(limit: number = 10): Promise<any[]> {
     return await DatabaseService.query(
       SELECT product_id, product_name, SUM(quantity) as total_quantity, SUM(total) as total_revenue
@@ -96,6 +102,7 @@ export class SalesService {
     );
   }
 
+  // Statistiques du jour
   async getDailyStats(): Promise<any> {
     const today = new Date().toISOString().split('T')[0];
     const revenue = await this.getRevenue(today, today);
@@ -103,6 +110,7 @@ export class SalesService {
     return { revenue, count, date: today };
   }
 
+  // Statistiques du mois
   async getMonthlyStats(): Promise<any> {
     const now = new Date();
     const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
@@ -112,6 +120,7 @@ export class SalesService {
     return { revenue, count, month: now.getMonth() + 1, year: now.getFullYear() };
   }
 
+  // Annuler une vente
   async cancelSale(id: string): Promise<boolean> {
     const sale = await DatabaseService.queryOne('SELECT * FROM sales WHERE id = ?', [id]);
     if (!sale || sale.status === 'cancelled') return false;
@@ -127,3 +136,4 @@ export class SalesService {
 }
 
 export default SalesService.getInstance();
+

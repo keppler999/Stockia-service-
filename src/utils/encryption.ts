@@ -49,3 +49,4 @@ export const generateActivationCode = async (deviceId: string): Promise<string> 
   );
   return 'STOCKIA-' + hash.substring(0, 12);
 };
+

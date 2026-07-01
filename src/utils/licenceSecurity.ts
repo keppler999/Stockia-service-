@@ -29,3 +29,4 @@ export const getRemainingDays = (expiryDate: Date): number => {
   const diff = expiryDate.getTime() - new Date().getTime();
   return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 };
+
