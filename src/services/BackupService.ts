@@ -21,7 +21,7 @@ export class BackupService {
     try {
       const date = formatDate(new Date()).replace(/\//g, '-');
       const fileName = stockia_backup_.db;
-      const backupPath = ${FileSystem.documentDirectory};
+      const backupPath = FileSystem.documentDirectory + fileName;
 
       await DatabaseService.backup(backupPath);
 
@@ -53,7 +53,7 @@ export class BackupService {
         .filter(f => f.startsWith('stockia_backup_') && f.endsWith('.db'))
         .map(async (f) => {
           const info = await FileSystem.getInfoAsync(
-            ${FileSystem.documentDirectory}
+            FileSystem.documentDirectory + f
           );
           return {
             name: f,
@@ -71,4 +71,3 @@ export class BackupService {
 }
 
 export default BackupService.getInstance();
-
