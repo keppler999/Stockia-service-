@@ -4,7 +4,6 @@
 
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import { formatDate } from '../utils/dateUtils';
 import DatabaseService from './DatabaseService';
 
 export class BackupService {
@@ -19,7 +18,8 @@ export class BackupService {
 
   async createBackup(): Promise<string> {
     try {
-      const date = formatDate(new Date()).replace(/\//g, '-');
+      const now = new Date();
+      const dateStr = now.toISOString().split('T')[0];
       const fileName = stockia_backup_.db;
       const backupPath = FileSystem.documentDirectory + fileName;
 
@@ -36,6 +36,12 @@ export class BackupService {
   async shareBackup(): Promise<void> {
     try {
       const backupPath = await this.createBackup();
+      
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        throw new Error('Le partage n\'est pas disponible sur cet appareil');
+      }
+
       await Sharing.shareAsync(backupPath, {
         mimeType: 'application/x-sqlite3',
         dialogTitle: 'Partager la sauvegarde',
@@ -46,26 +52,59 @@ export class BackupService {
     }
   }
 
-  async getBackups(): Promise<{ name: string; size: number; date: Date }[]> {
+  async getBackups(): Promise<Array<{
+    name: string;
+    size: number;
+    date: Date;
+  }>> {
     try {
-      const files = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
-      const backups = files
-        .filter(f => f.startsWith('stockia_backup_') && f.endsWith('.db'))
-        .map(async (f) => {
-          const info = await FileSystem.getInfoAsync(
-            FileSystem.documentDirectory + f
-          );
-          return {
-            name: f,
-            size: info.exists ? info.size || 0 : 0,
-            date: new Date(info.exists ? info.modificationTime || Date.now() : Date.now()),
-          };
-        });
+      const files = await FileSystem.readDirectoryAsync(
+        FileSystem.documentDirectory
+      );
       
-      return await Promise.all(backups);
+      const backupFiles = files.filter(
+        (file) => file.startsWith('stockia_backup_') && file.endsWith('.db')
+      );
+
+      const results = [];
+      for (const file of backupFiles) {
+        const info = await FileSystem.getInfoAsync(
+          FileSystem.documentDirectory + file
+        );
+        if (info.exists) {
+          results.push({
+            name: file,
+            size: info.size || 0,
+            date: new Date(info.modificationTime || Date.now())
+          });
+        }
+      }
+
+      return results.sort((a, b) => b.date.getTime() - a.date.getTime());
     } catch (error) {
       console.error('❌ Erreur liste sauvegardes:', error);
       return [];
+    }
+  }
+
+  async deleteBackup(fileName: string): Promise<boolean> {
+    try {
+      const filePath = FileSystem.documentDirectory + fileName;
+      await FileSystem.deleteAsync(filePath);
+      return true;
+    } catch (error) {
+      console.error('❌ Erreur suppression sauvegarde:', error);
+      return false;
+    }
+  }
+
+  async getBackupSize(fileName: string): Promise<number> {
+    try {
+      const filePath = FileSystem.documentDirectory + fileName;
+      const info = await FileSystem.getInfoAsync(filePath);
+      return info.exists ? info.size || 0 : 0;
+    } catch {
+      return 0;
     }
   }
 }
