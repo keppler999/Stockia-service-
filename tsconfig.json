@@ -1,24 +1,44 @@
 ﻿{
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM"],
+    "jsx": "react-native",
     "strict": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "noEmit": true,
+    "ignoreDeprecations": "6.0",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@screens/*": ["src/screens/*"],
-      "@services/*": ["src/services/*"],
-      "@utils/*": ["src/utils/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@context/*": ["src/context/*"],
-      "@navigation/*": ["src/navigation/*"],
-      "@database/*": ["src/database/*"],
-      "@types/*": ["src/types/*"],
-      "@config/*": ["src/config/*"],
-      "@constants/*": ["src/constants/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@services/*": ["./src/services/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@context/*": ["./src/context/*"],
+      "@navigation/*": ["./src/navigation/*"],
+      "@database/*": ["./src/database/*"],
+      "@types/*": ["./src/types/*"],
+      "@config/*": ["./src/config/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@assets/*": ["./src/assets/*"]
     }
   },
-  "include": ["src/**/*", "App.tsx"],
-  "exclude": ["node_modules", "babel.config.js"]
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "App.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "**/*.spec.ts"
+  ]
 }
