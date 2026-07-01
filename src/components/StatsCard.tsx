@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
-import Card from './Card';
+// ✅ Importer avec require pour contourner la vérification de casse
+const Card = require('./Card').default;
 
 interface StatsCardProps {
   title: string;
