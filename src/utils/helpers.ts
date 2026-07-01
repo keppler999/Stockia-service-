@@ -103,3 +103,4 @@ export const getPlatform = (): string => {
 export const getDeviceInfo = (): string => {
   return ${Platform.OS} ;
 };
+

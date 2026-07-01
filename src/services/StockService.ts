@@ -63,7 +63,7 @@ export class StockService {
         product.cost || null,
         product.stock || 0,
         product.minStock || 5,
-        product.category || '',
+        product.category || ',
         product.description || null,
         product.image || null,
         now,
@@ -164,7 +164,7 @@ export class StockService {
 
   async getCategories(): Promise<string[]> {
     const results = await DatabaseService.query(
-      'SELECT DISTINCT category FROM products WHERE category IS NOT NULL AND category != "" ORDER BY category'
+      'SELECT DISTINCT category FROM products WHERE category IS NOT NULL AND category != " ORDER BY category'
     );
     return results.map((r: any) => r.category);
   }
@@ -178,7 +178,7 @@ export class StockService {
       cost: data.cost || undefined,
       stock: data.stock,
       minStock: data.min_stock,
-      category: data.category || '',
+      category: data.category || ',
       description: data.description || undefined,
       image: data.image || undefined,
       createdAt: new Date(data.created_at),
@@ -188,3 +188,4 @@ export class StockService {
 }
 
 export default StockService.getInstance();
+

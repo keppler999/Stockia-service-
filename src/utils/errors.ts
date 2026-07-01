@@ -1,6 +1,6 @@
 ﻿// ============================================
-# GESTION DES ERREURS
-# ============================================
+// GESTION DES ERREURS
+// ============================================
 
 export class AppError extends Error {
   code: string;
@@ -43,10 +43,6 @@ export const createError = (
   return new AppError(message, code, details);
 };
 
-export const handleError = (error: any): void => {
-  console.error('[ERROR]', error);
-};
-
 export const ERROR_CODES = {
   NETWORK: 'ERR_NETWORK',
   AUTH: 'ERR_AUTH',
@@ -54,5 +50,4 @@ export const ERROR_CODES = {
   DATABASE: 'ERR_DATABASE',
   VALIDATION: 'ERR_VALIDATION',
   NOT_FOUND: 'ERR_NOT_FOUND',
-  PERMISSION: 'ERR_PERMISSION',
 } as const;

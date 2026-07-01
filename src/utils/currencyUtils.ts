@@ -14,7 +14,7 @@ export const formatCurrency = (amount: number, currency = 'FC'): string => {
 };
 
 export const parseCurrency = (value: string): number => {
-  const cleaned = value.replace(/[^0-9,.]/g, '').replace(',', '.');
+  const cleaned = value.replace(/[^0-9,.]/g, ').replace(',', '.');
   return parseFloat(cleaned) || 0;
 };
 
@@ -53,3 +53,4 @@ export const calculateMargin = (price: number, cost: number): number => {
   if (price === 0) return 0;
   return ((price - cost) / price) * 100;
 };
+

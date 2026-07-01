@@ -135,7 +135,7 @@ export class SalesService {
       discount,
       paymentMethod,
       clientId,
-      userId: userId || '',
+      userId: userId || ',
       items: saleItems,
       status: 'completed',
       createdAt: now,
@@ -315,3 +315,4 @@ export class SalesService {
 }
 
 export default SalesService.getInstance();
+
